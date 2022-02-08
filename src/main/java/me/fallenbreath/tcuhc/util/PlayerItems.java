@@ -157,6 +157,18 @@ public class PlayerItems
 		items.put("hsds", Builder.create(Items.END_CRYSTAL).get());
 		items.put("ayjinyt", Builder.create(Items.FLOWERING_AZALEA_LEAVES).named("yt's_Cherry_leaves").enchant(Enchantments.CHANNELING, 1).get());
 		items.put("north_82", Builder.create(Items.SHULKER_SHELL).named("\"North's\" Shark shel").enchant(Enchantments.SHARPNESS, 1).enchant(Enchantments.UNBREAKING, 3).get());
+		items.put("Runaway_Fancy", Builder.create(Items.SPYGLASS).named("Let me See your dick").enchant(Enchantments.THORNS, 1).get());
+		items.put("zhihan233",Builder.create(Items.PINK_DYE).named("Pink Dye").enchant(Enchantments.BINDING_CURSE, 1).get());
+		items.put("LINHUA_24k", Builder.create(Items.GOLD_INGOT).named("2 4 K purity gold").enchant(Enchantments.KNOCKBACK, 2).get());
+		items.put("Xiang_Q1u", Builder.create(Items.WATER_BUCKET).named("TURBULENCE").enchant(Enchantments.VANISHING_CURSE, 1).get());
+		items.put("M0n3tr", Builder.create(Items.GLASS_BOTTLE).named("Ass S****r").enchant(Enchantments.SMITE, 1).get());
+		items.put("WEIKAN", Builder.create(Items.POWDER_SNOW_BUCKET).named("来自八个克劳德的祝福").enchant(Enchantments.THORNS, 1).get());
+		items.put("Tou_Beichuan", Builder.create(Items.GOLD_NUGGET).named("Let me See your dick").enchant(Enchantments.KNOCKBACK, 2).get());
+		items.put("kaniol", Builder.create(Items.ELYTRA).named("Fly Fly ~").enchant(Enchantments.UNBREAKING, 3).get());
+		items.put("Qungrn", Builder.create(Items.FIRE_CHARGE).named("然然...嘿嘿然然...").enchant(Enchantments.LOYALTY, 2).get());
+		items.put("REMS_Eula", Builder.create(Items.DIAMOND).named("DI(x) Tu Hao").enchant(Enchantments.FORTUNE, 3).get());
+		items.put("yue_szk", Builder.create(Items.AMETHYST_SHARD).named("s z k").enchant(Enchantments.MENDING, 1).get());
+		items.put("xiao_6", Builder.create(Items.WARPED_FUNGUS_ON_A_STICK).named("6 6 6").enchant(Enchantments.UNBREAKING, 3).get());
 	}
 
 	private static class Builder
