@@ -7,6 +7,7 @@ package me.fallenbreath.tcuhc.options;
 import com.google.common.collect.Maps;
 import me.fallenbreath.tcuhc.UhcGameManager;
 import me.fallenbreath.tcuhc.UhcGameManager.EnumMode;
+import me.fallenbreath.tcuhc.UhcGameManager.EnumBattleType;
 import me.fallenbreath.tcuhc.UhcGamePlayer;
 import me.fallenbreath.tcuhc.task.Task;
 import net.minecraft.world.Difficulty;
@@ -60,6 +61,7 @@ public class Options {
 		uhcOptionsFile = optionsFile;
 
 		addOption(new Option("gameMode", "Game Mode", new OptionType.EnumType(EnumMode.class), EnumMode.NORMAL).addTask(taskReselectTeam).setDescription("UHC Game Mode, normal for original rules, solo for one player one team, boss for hungryartist_."));
+		addOption(new Option("battleType", "Battle Type", new OptionType.EnumType(EnumBattleType.class), EnumBattleType.NORMAL).addTask(taskReselectTeam).setDescription("UHC Battle Type, normal for original rules, icarus for fight with elytra, marine for fight in ocean."));
 		addOption(new Option("randomTeams", "Random Team", new OptionType.BooleanType(), true).addTask(taskReselectTeam).setDescription("Form teams randomly or manually, doesn't work on solo mode."));
 		addOption(new Option("teamCount", "Team Count", new OptionType.IntegerType(2, 8, 1), 4).addTask(taskReselectTeam).setDescription("Count of different teams, only works on normal mode."));
 

@@ -82,6 +82,7 @@ public class UhcGameManager extends Taskable {
 	public boolean isGamePlaying() { return isGamePlaying; }
 	public boolean isConfiguring() { return configManager.isConfiguring(); }
 	public boolean hasGameEnded() { return isGameEnded; }
+	public static EnumBattleType getBattleType() { return (EnumBattleType)instance.getOptions().getOptionValue("battleType"); }
 	public static EnumMode getGameMode() { return (EnumMode)instance.getOptions().getOptionValue("gameMode"); }
 
 	public ServerWorld getOverWorld()
@@ -396,6 +397,12 @@ public class UhcGameManager extends Taskable {
 		{
 			return deathRegen;
 		}
+	}
+
+	public static enum EnumBattleType {
+		NORMAL,
+		MARINE,
+		ICARUS
 	}
 
 }

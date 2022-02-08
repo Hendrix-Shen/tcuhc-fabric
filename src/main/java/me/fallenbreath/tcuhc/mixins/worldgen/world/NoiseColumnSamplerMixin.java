@@ -6,6 +6,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import me.fallenbreath.tcuhc.UhcGameManager;
 
 @Mixin(NoiseColumnSampler.class)
 public abstract class NoiseColumnSamplerMixin
@@ -27,6 +28,9 @@ public abstract class NoiseColumnSamplerMixin
 	private void iHateOceansSoPleaseMakeTheReturnValueLarger(CallbackInfoReturnable<Double> cir)
 	{
 		double x = cir.getReturnValue();
-		cir.setReturnValue(0.6 * x + 0.4);
+		if(UhcGameManager.getBattleType() == UhcGameManager.EnumBattleType.MARINE)
+			cir.setReturnValue(2.0 * x - 1.0);
+		else
+			cir.setReturnValue(0.6 * x + 0.4);
 	}
 }

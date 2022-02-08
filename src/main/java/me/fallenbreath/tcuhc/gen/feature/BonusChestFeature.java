@@ -16,10 +16,9 @@ import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentLevelEntry;
 import net.minecraft.enchantment.Enchantments;
-import net.minecraft.item.EnchantedBookItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
+import net.minecraft.potion.PotionUtil;
+import net.minecraft.potion.Potions;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.BlockRotation;
@@ -46,6 +45,9 @@ public class BonusChestFeature extends Feature<DefaultFeatureConfig>
 	private static final Enchantment[] POSSIBLE_ENCHANTMENTS = {
 			Enchantments.POWER, Enchantments.SHARPNESS, Enchantments.UNBREAKING, Enchantments.EFFICIENCY,
 			Enchantments.FIRE_ASPECT, Enchantments.PROTECTION, Enchantments.PROJECTILE_PROTECTION
+	};
+	private static final Enchantment[] POSSIBLE_TRIDENT_ENCHANTMENTS = {
+			Enchantments.LOYALTY, Enchantments.RIPTIDE, Enchantments.IMPALING
 	};
 	private static final Random rand = new Random();
 
@@ -197,6 +199,8 @@ public class BonusChestFeature extends Feature<DefaultFeatureConfig>
 	{
 		double forestChance = 0.12;
 		double oceanChance = 0.0;
+		if(UhcGameManager.getBattleType() == UhcGameManager.EnumBattleType.MARINE)
+			oceanChance = 0.2;
 		double desertChance = 0.06;
 		double exHillsChance = 0.12;
 		double plainChance = 0.06;
@@ -241,7 +245,7 @@ public class BonusChestFeature extends Feature<DefaultFeatureConfig>
 		valuableItemList.add(new RandomItem(8, new ItemSupplier(Items.DIAMOND)));
 		valuableItemList.add(new RandomItem(16, () -> {
 			ItemStack item = new ItemStack(Items.ENCHANTED_BOOK);
-			EnchantedBookItem.addEnchantment(item, new EnchantmentLevelEntry(POSSIBLE_ENCHANTMENTS[rand.nextInt(POSSIBLE_ENCHANTMENTS.length)], rand.nextInt(4) == 0 ? 2 : 1));
+			EnchantedBookItem.addEnchantment(item, new EnchantmentLevelEntry(POSSIBLE_TRIDENT_ENCHANTMENTS[rand.nextInt(POSSIBLE_TRIDENT_ENCHANTMENTS.length)], rand.nextInt(4) == 0 ? 2 : 1));
 			return item;
 		}));
 
@@ -255,6 +259,24 @@ public class BonusChestFeature extends Feature<DefaultFeatureConfig>
 		chestItemList.add(new RandomItem(5, new MinMaxSupplier(Items.EXPERIENCE_BOTTLE, 2, 4)));
 
 		emptyItemList.add(new RandomItem(1, () -> new ItemStack(Blocks.DEAD_BUSH).setCustomName(new LiteralText("There should be something here, but ..."))));
+
+		if (UhcGameManager.getBattleType() == UhcGameManager.EnumBattleType.MARINE) {
+			valuableItemList.add(new RandomItem(8, () -> {
+				return PotionUtil.setPotion(new ItemStack(Items.POTION), Potions.WATER_BREATHING);
+			}));
+			valuableItemList.add(new RandomItem(16, new ItemSupplier(Items.TRIDENT)));
+			valuableItemList.add(new RandomItem(16, () -> {
+				ItemStack item = new ItemStack(Items.ENCHANTED_BOOK);
+				EnchantedBookItem.addEnchantment(item, new EnchantmentLevelEntry(POSSIBLE_ENCHANTMENTS[rand.nextInt(POSSIBLE_ENCHANTMENTS.length)], rand.nextInt(4) == 0 ? 2 : 1));
+				return item;
+			}));
+			valuableItemList.add(new RandomItem(8, new ItemSupplier(Items.APPLE)));
+			chestItemList.add(new RandomItem(5, new ItemSupplier(Items.OAK_WOOD)));
+		}
+		if (UhcGameManager.getBattleType() == UhcGameManager.EnumBattleType.ICARUS) {
+			valuableItemList.add(new RandomItem(16, new ItemSupplier(Items.GUNPOWDER)));
+			chestItemList.add(new RandomItem(3, new ItemSupplier(Items.FIREWORK_ROCKET)));
+		}
 
 		chestChance = UhcGameManager.instance.getOptions().getFloatOptionValue("chestFrequency");
 		emptyChestChance = UhcGameManager.instance.getOptions().getFloatOptionValue("trappedChestFrequency");

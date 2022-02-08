@@ -64,6 +64,7 @@ public class BookNBT {
 		
 		appendPageText(pages, (BaseText) new LiteralText("General Settings\n\n")
 				.append(createOptionText(options.getOption("gameMode")))
+				.append(createOptionText(options.getOption("battleType")))
 				.append(createOptionText(options.getOption("randomTeams")))
 				.append(createOptionText(options.getOption("teamCount")))
 				.append(createReturn())

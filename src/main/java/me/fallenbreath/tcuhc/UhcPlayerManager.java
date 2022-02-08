@@ -26,6 +26,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.DyeableItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -626,6 +627,10 @@ public class UhcPlayerManager
 		ChestBlockEntity chest = (ChestBlockEntity) te;
 		chest.setStack(0, new ItemStack(Items.WOODEN_AXE));
 		chest.setStack(1, new ItemStack(Items.WOODEN_SWORD));
+		if (UhcGameManager.getBattleType() == UhcGameManager.EnumBattleType.MARINE) {
+			for(int i =0; i < playerCnt; i ++)
+				chest.setStack(9 + i, new ItemStack(Items.OAK_BOAT));
+		}
 		if (gameManager.getOptions().getBooleanOptionValue("greenhandProtect"))
 			chest.setStack(2, new ItemStack(Items.GOLDEN_APPLE, playerCnt));
 	}

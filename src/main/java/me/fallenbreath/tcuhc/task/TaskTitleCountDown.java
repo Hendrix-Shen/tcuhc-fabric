@@ -12,6 +12,7 @@ import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.DyeableItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -54,6 +55,14 @@ public class TaskTitleCountDown extends TaskTimer {
 				UhcGameManager.instance.getUhcPlayerManager().resetHealthAndFood(player);
 				player.resetStat(Stats.CUSTOM.getOrCreateStat(Stats.TIME_SINCE_REST));  // no free phantom
 				player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 200, 4));  // 10s Resistance V
+				if(UhcGameManager.getBattleType() == UhcGameManager.EnumBattleType.ICARUS) {
+					ItemStack elytra = Items.ELYTRA.getDefaultStack();
+					elytra.addEnchantment(Enchantments.MENDING, 1);
+					elytra.addEnchantment(Enchantments.BINDING_CURSE, 1);
+					player.getInventory().insertStack(PlayerInventory.MAIN_SIZE + 2, elytra);
+				} else if(UhcGameManager.getBattleType() == UhcGameManager.EnumBattleType.MARINE) {
+					player.addStatusEffect(new StatusEffectInstance(StatusEffects.WATER_BREATHING, 1200, 0));
+				}
 				// revoke all advancements
 				player.getServer().getAdvancementLoader().getAdvancements().forEach(advancement -> {
 					AdvancementProgress advancementProgress = player.getAdvancementTracker().getProgress(advancement);
