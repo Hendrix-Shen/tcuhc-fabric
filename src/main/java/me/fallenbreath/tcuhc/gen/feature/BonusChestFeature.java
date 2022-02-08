@@ -46,8 +46,16 @@ public class BonusChestFeature extends Feature<DefaultFeatureConfig>
 			Enchantments.POWER, Enchantments.SHARPNESS, Enchantments.UNBREAKING, Enchantments.EFFICIENCY,
 			Enchantments.FIRE_ASPECT, Enchantments.PROTECTION, Enchantments.PROJECTILE_PROTECTION
 	};
-	private static final Enchantment[] POSSIBLE_TRIDENT_ENCHANTMENTS = {
-			Enchantments.LOYALTY, Enchantments.RIPTIDE, Enchantments.IMPALING
+	private static final Enchantment[] POSSIBLE_MARINE_ENCHANTMENTS = {
+			Enchantments.POWER, Enchantments.SHARPNESS, Enchantments.UNBREAKING, Enchantments.EFFICIENCY,
+			Enchantments.FIRE_ASPECT, Enchantments.PROTECTION, Enchantments.PROJECTILE_PROTECTION,
+			Enchantments.LOYALTY, Enchantments.RIPTIDE, Enchantments.IMPALING,
+			Enchantments.FROST_WALKER, Enchantments.AQUA_AFFINITY, Enchantments.DEPTH_STRIDER
+	};
+	private static final Enchantment[] POSSIBLE_ICARUS_ENCHANTMENTS = {
+			Enchantments.POWER, Enchantments.SHARPNESS, Enchantments.UNBREAKING, Enchantments.EFFICIENCY,
+			Enchantments.FIRE_ASPECT, Enchantments.PROTECTION, Enchantments.PROJECTILE_PROTECTION,
+			Enchantments.FEATHER_FALLING
 	};
 	private static final Random rand = new Random();
 
@@ -245,7 +253,17 @@ public class BonusChestFeature extends Feature<DefaultFeatureConfig>
 		valuableItemList.add(new RandomItem(8, new ItemSupplier(Items.DIAMOND)));
 		valuableItemList.add(new RandomItem(16, () -> {
 			ItemStack item = new ItemStack(Items.ENCHANTED_BOOK);
-			EnchantedBookItem.addEnchantment(item, new EnchantmentLevelEntry(POSSIBLE_TRIDENT_ENCHANTMENTS[rand.nextInt(POSSIBLE_TRIDENT_ENCHANTMENTS.length)], rand.nextInt(4) == 0 ? 2 : 1));
+			switch (UhcGameManager.getBattleType()) {
+				case NORMAL:
+					EnchantedBookItem.addEnchantment(item, new EnchantmentLevelEntry(POSSIBLE_ENCHANTMENTS[rand.nextInt(POSSIBLE_ENCHANTMENTS.length)], rand.nextInt(4) == 0 ? 2 : 1));
+					break;
+				case MARINE:
+					EnchantedBookItem.addEnchantment(item, new EnchantmentLevelEntry(POSSIBLE_MARINE_ENCHANTMENTS[rand.nextInt(POSSIBLE_MARINE_ENCHANTMENTS.length)], rand.nextInt(4) == 0 ? 2 : 1));
+					break;
+				case ICARUS:
+					EnchantedBookItem.addEnchantment(item, new EnchantmentLevelEntry(POSSIBLE_ICARUS_ENCHANTMENTS[rand.nextInt(POSSIBLE_ICARUS_ENCHANTMENTS.length)], rand.nextInt(4) == 0 ? 2 : 1));
+					break;
+			}
 			return item;
 		}));
 
@@ -265,15 +283,9 @@ public class BonusChestFeature extends Feature<DefaultFeatureConfig>
 				return PotionUtil.setPotion(new ItemStack(Items.POTION), Potions.WATER_BREATHING);
 			}));
 			valuableItemList.add(new RandomItem(16, new ItemSupplier(Items.TRIDENT)));
-			valuableItemList.add(new RandomItem(16, () -> {
-				ItemStack item = new ItemStack(Items.ENCHANTED_BOOK);
-				EnchantedBookItem.addEnchantment(item, new EnchantmentLevelEntry(POSSIBLE_ENCHANTMENTS[rand.nextInt(POSSIBLE_ENCHANTMENTS.length)], rand.nextInt(4) == 0 ? 2 : 1));
-				return item;
-			}));
 			valuableItemList.add(new RandomItem(8, new ItemSupplier(Items.APPLE)));
-			chestItemList.add(new RandomItem(5, new ItemSupplier(Items.OAK_WOOD)));
-		}
-		if (UhcGameManager.getBattleType() == UhcGameManager.EnumBattleType.ICARUS) {
+			chestItemList.add(new RandomItem(5, new ItemSupplier(Items.OAK_LOG)));
+		} else if (UhcGameManager.getBattleType() == UhcGameManager.EnumBattleType.ICARUS) {
 			valuableItemList.add(new RandomItem(16, new ItemSupplier(Items.GUNPOWDER)));
 			chestItemList.add(new RandomItem(3, new ItemSupplier(Items.FIREWORK_ROCKET)));
 		}
