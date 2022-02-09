@@ -287,11 +287,20 @@ public class BonusChestFeature extends Feature<DefaultFeatureConfig>
 			valuableItemList.add(new RandomItem(8, () -> {
 				return PotionUtil.setPotion(new ItemStack(Items.POTION), Potions.WATER_BREATHING);
 			}));
+			valuableItemList.add(new RandomItem(64, () -> {
+				ItemStack item = new ItemStack(Items.ENCHANTED_BOOK);
+				EnchantedBookItem.addEnchantment(item, new EnchantmentLevelEntry(Enchantments.CHANNELING, 1));
+				return item;
+			}));
 			valuableItemList.add(new RandomItem(16, new ItemSupplier(Items.TRIDENT)));
 			valuableItemList.add(new RandomItem(8, new ItemSupplier(Items.APPLE)));
 			chestItemList.add(new RandomItem(5, new ItemSupplier(Items.OAK_LOG)));
 		} else if (UhcGameManager.getBattleType() == UhcGameManager.EnumBattleType.ICARUS) {
 			valuableItemList.add(new RandomItem(16, new ItemSupplier(Items.GUNPOWDER)));
+			valuableItemList.add(new RandomItem(32, () -> {
+				ItemStack item = PotionUtil.setPotion(new ItemStack(Items.TIPPED_ARROW), Potions.LUCK);
+				return item;
+			}));
 			valuableItemList.add(new RandomItem(8, () -> {
 				List list = Registry.POTION.stream().filter(potion -> !potion.getEffects().isEmpty() && BrewingRecipeRegistry.isBrewable(potion)).collect(Collectors.toList());
 				Potion potion = (Potion) list.get(rand.nextInt(list.size()));
