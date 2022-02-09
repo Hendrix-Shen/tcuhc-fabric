@@ -112,13 +112,15 @@ public class TaskNetherCave extends TaskTimer {
 			finalMaxY = heights.get(heights.size() - 4) + 12;
 			if(UhcGameManager.getBattleType() == UhcGameManager.EnumBattleType.ICARUS)
 				finalMaxY += 15;
-
 			ServerWorldProperties worldinfo = (ServerWorldProperties) world.getLevelProperties();
-			worldinfo.setClearWeatherTime(gameTime * 20);
-			worldinfo.setRainTime(0);
-			worldinfo.setThunderTime(0);
-			worldinfo.setRaining(false);
-			worldinfo.setThundering(false);
+
+			if(UhcGameManager.getWeather() == UhcGameManager.Weather.CLEAR) {
+				worldinfo.setClearWeatherTime(gameTime * 20);
+				worldinfo.setRainTime(0);
+				worldinfo.setThunderTime(0);
+				worldinfo.setRaining(false);
+				worldinfo.setThundering(false);
+			}
 
 			GameRules gameRules = world.getGameRules();
 			gameRules.get(GameRules.DO_DAYLIGHT_CYCLE).set(false, world.getServer());

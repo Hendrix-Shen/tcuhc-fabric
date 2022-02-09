@@ -67,8 +67,11 @@ public class BookNBT {
 				.append(createOptionText(options.getOption("battleType")))
 				.append(createOptionText(options.getOption("randomTeams")))
 				.append(createOptionText(options.getOption("teamCount")))
-				.append(createReturn())
+		);
+
+		appendPageText(pages, (BaseText) new LiteralText("Game Settings\n\n")
 				.append(createOptionText(options.getOption("difficulty")))
+				.append(createOptionText(options.getOption("weather")))
 				.append(createOptionText(options.getOption("daylightCycle")))
 				.append(createOptionText(options.getOption("friendlyFire")))
 				.append(createOptionText(options.getOption("teamCollision")))

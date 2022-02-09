@@ -66,6 +66,7 @@ public class Options {
 		addOption(new Option("teamCount", "Team Count", new OptionType.IntegerType(2, 8, 1), 4).addTask(taskReselectTeam).setDescription("Count of different teams, only works on normal mode."));
 
 		addOption(new Option("difficulty", "Difficulty", new OptionType.EnumType(Difficulty.class), Difficulty.HARD).setDescription("Difficulty of game"));
+		addOption(new Option("weather", "Weather", new OptionType.EnumType(UhcGameManager.Weather.class), UhcGameManager.Weather.NORMAL).setDescription("Weather of game"));
 		addOption(new Option("daylightCycle", "Have Nights", new OptionType.BooleanType(), true).setDescription("Gamerule doDaylightCycle."));
 		addOption(new Option("friendlyFire", "Team Fire", new OptionType.BooleanType(), false).setDescription("Can team members attack each other."));
 		addOption(new Option("teamCollision", "Team Coll", new OptionType.BooleanType(), true).setDescription("Can team members collide with each other."));

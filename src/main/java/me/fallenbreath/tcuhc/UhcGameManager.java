@@ -32,6 +32,7 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
+import net.minecraft.world.level.ServerWorldProperties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -83,6 +84,7 @@ public class UhcGameManager extends Taskable {
 	public boolean isConfiguring() { return configManager.isConfiguring(); }
 	public boolean hasGameEnded() { return isGameEnded; }
 	public static EnumBattleType getBattleType() { return (EnumBattleType)instance.getOptions().getOptionValue("battleType"); }
+	public static Weather getWeather() { return (Weather)instance.getOptions().getOptionValue("weather"); }
 	public static EnumMode getGameMode() { return (EnumMode)instance.getOptions().getOptionValue("gameMode"); }
 
 	public ServerWorld getOverWorld()
@@ -273,11 +275,24 @@ public class UhcGameManager extends Taskable {
 	private void initWorlds() {
 		boolean daylightCycle = uhcOptions.getBooleanOptionValue("daylightCycle");
 		Difficulty difficulty = (Difficulty) uhcOptions.getOptionValue("difficulty");
+		Weather weather = getWeather();
 		int borderStart = uhcOptions.getIntegerOptionValue("borderStart");
 		for (ServerWorld world : mcServer.getWorlds()) {
 			world.getGameRules().get(GameRules.NATURAL_REGENERATION).set(false, mcServer);
 			world.getGameRules().get(GameRules.DO_DAYLIGHT_CYCLE).set(daylightCycle, mcServer);
 			world.setTimeOfDay(0);
+			if(weather != Weather.NORMAL) {
+				world.getGameRules().get(GameRules.DO_WEATHER_CYCLE).set(false, mcServer);
+				ServerWorldProperties worldinfo = (ServerWorldProperties) world.getLevelProperties();
+				if (weather != weather.CLEAR) {
+					worldinfo.setClearWeatherTime(0);
+					worldinfo.setRainTime(6000);
+				}
+				if (weather == weather.RAIN)
+					worldinfo.setRaining(true);
+				if (weather == weather.THUNDER)
+					worldinfo.setThundering(true);
+			}
 			world.getWorldBorder().setSize(borderStart);
 		}
 		mcServer.setDifficulty(difficulty, true);
@@ -405,4 +420,10 @@ public class UhcGameManager extends Taskable {
 		ICARUS
 	}
 
+	public static enum Weather {
+		NORMAL,
+		CLEAR,
+		RAIN,
+		THUNDER
+	}
 }
