@@ -17,8 +17,10 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentLevelEntry;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.*;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionUtil;
 import net.minecraft.potion.Potions;
+import net.minecraft.recipe.BrewingRecipeRegistry;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.BlockRotation;
@@ -29,12 +31,15 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
+import net.minecraft.util.registry.Registry;
+
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class BonusChestFeature extends Feature<DefaultFeatureConfig>
 {
@@ -287,6 +292,12 @@ public class BonusChestFeature extends Feature<DefaultFeatureConfig>
 			chestItemList.add(new RandomItem(5, new ItemSupplier(Items.OAK_LOG)));
 		} else if (UhcGameManager.getBattleType() == UhcGameManager.EnumBattleType.ICARUS) {
 			valuableItemList.add(new RandomItem(16, new ItemSupplier(Items.GUNPOWDER)));
+			valuableItemList.add(new RandomItem(8, () -> {
+				List list = Registry.POTION.stream().filter(potion -> !potion.getEffects().isEmpty() && BrewingRecipeRegistry.isBrewable(potion)).collect(Collectors.toList());
+				Potion potion = (Potion) list.get(rand.nextInt(list.size()));
+				ItemStack item = PotionUtil.setPotion(new ItemStack(Items.TIPPED_ARROW), potion);
+				return item;
+			}));
 			chestItemList.add(new RandomItem(3, new ItemSupplier(Items.FIREWORK_ROCKET)));
 		}
 

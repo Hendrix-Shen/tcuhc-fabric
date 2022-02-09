@@ -59,7 +59,7 @@ public class TaskTitleCountDown extends TaskTimer {
 					ItemStack elytra = new ItemStack(Items.ELYTRA);
 					elytra.addEnchantment(Enchantments.MENDING, 1);
 					elytra.addEnchantment(Enchantments.BINDING_CURSE, 1);
-					player.getInventory().insertStack(PlayerInventory.MAIN_SIZE + 2, elytra);
+					player.equipStack(EquipmentSlot.CHEST, elytra);
 				} else if(UhcGameManager.getBattleType() == UhcGameManager.EnumBattleType.MARINE) {
 					player.addStatusEffect(new StatusEffectInstance(StatusEffects.WATER_BREATHING, 1200, 0));
 				}

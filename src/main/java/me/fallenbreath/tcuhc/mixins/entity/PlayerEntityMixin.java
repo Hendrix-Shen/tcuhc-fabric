@@ -13,7 +13,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
@@ -24,6 +26,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin extends LivingEntity
 {
+	@Shadow @Final private PlayerInventory inventory;
 	private float modifiedDamageAmount;
 
 	protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world)
@@ -87,6 +90,12 @@ public abstract class PlayerEntityMixin extends LivingEntity
 		this.modifiedDamageAmount = amount = UhcGameManager.instance.modifyPlayerDamage(amount);
 
 		PlayerEntity self = (PlayerEntity)(Object)this;
+		// reduce flying into wall damage under icarus
+		if (UhcGameManager.getBattleType() == UhcGameManager.EnumBattleType.ICARUS &&
+				source == DamageSource.FLY_INTO_WALL && amount > 0.0F) {
+			modifiedDamageAmount *= 0.5F;
+		}
+
 		Entity sourceEntity = source.getSource();
 		if (!(sourceEntity instanceof ServerPlayerEntity)) sourceEntity = source.getAttacker();
 		if (sourceEntity instanceof ServerPlayerEntity && amount > 0.0F) {
