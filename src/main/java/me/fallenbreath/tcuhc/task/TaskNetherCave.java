@@ -110,6 +110,8 @@ public class TaskNetherCave extends TaskTimer {
 			Collections.sort(heights);
 			finalMinY = heights.get(4);
 			finalMaxY = heights.get(heights.size() - 4) + 12;
+			if(UhcGameManager.getBattleType() == UhcGameManager.EnumBattleType.ICARUS)
+				finalMaxY += 15;
 
 			ServerWorldProperties worldinfo = (ServerWorldProperties) world.getLevelProperties();
 			worldinfo.setClearWeatherTime(gameTime * 20);
