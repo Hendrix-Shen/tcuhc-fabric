@@ -169,6 +169,7 @@ public class PlayerItems
 		items.put("REMS_Eula", Builder.create(Items.DIAMOND).named("DI(x) Tu Hao").enchant(Enchantments.FORTUNE, 3).get());
 		items.put("yue_szk", Builder.create(Items.AMETHYST_SHARD).named("s z k").enchant(Enchantments.MENDING, 1).get());
 		items.put("xiao_6", Builder.create(Items.WARPED_FUNGUS_ON_A_STICK).named("6 6 6").enchant(Enchantments.UNBREAKING, 3).get());
+		items.put("liangxi__", Builder.create(Items.SUGAR).named("嘉心糖").enchant(Enchantments.LOYALTY, 2).get());
 	}
 
 	private static class Builder
