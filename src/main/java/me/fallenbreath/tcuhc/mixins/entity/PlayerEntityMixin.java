@@ -96,6 +96,7 @@ public abstract class PlayerEntityMixin extends LivingEntity
 			modifiedDamageAmount *= 0.5F;
 		}
 
+
 		Entity sourceEntity = source.getSource();
 		if (!(sourceEntity instanceof ServerPlayerEntity)) sourceEntity = source.getAttacker();
 		if (sourceEntity instanceof ServerPlayerEntity && amount > 0.0F) {

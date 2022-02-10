@@ -77,6 +77,7 @@ public class BookNBT {
 				.append(createOptionText(options.getOption("friendlyFire")))
 				.append(createOptionText(options.getOption("teamCollision")))
 				.append(createOptionText(options.getOption("greenhandProtect")))
+				.append(createOptionText(options.getOption("initialLuckArrow")))
 				.append(createOptionText(options.getOption("forceViewport")))
 				.append(createOptionText(options.getOption("deathBonus")))
 		);

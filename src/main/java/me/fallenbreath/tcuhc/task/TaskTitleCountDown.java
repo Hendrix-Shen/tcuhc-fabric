@@ -55,6 +55,8 @@ public class TaskTitleCountDown extends TaskTimer {
 				UhcGameManager.instance.getUhcPlayerManager().resetHealthAndFood(player);
 				player.resetStat(Stats.CUSTOM.getOrCreateStat(Stats.TIME_SINCE_REST));  // no free phantom
 				player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 200, 4));  // 10s Resistance V
+				if(UhcGameManager.instance.getOptions().getBooleanOptionValue("initialLuckArrow"))
+					player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 1000000, 1));
 				if(UhcGameManager.getBattleType() == UhcGameManager.EnumBattleType.ICARUS) {
 					ItemStack elytra = new ItemStack(Items.ELYTRA);
 					elytra.addEnchantment(Enchantments.MENDING, 1);
@@ -63,6 +65,7 @@ public class TaskTitleCountDown extends TaskTimer {
 				} else if(UhcGameManager.getBattleType() == UhcGameManager.EnumBattleType.MARINE) {
 					player.addStatusEffect(new StatusEffectInstance(StatusEffects.WATER_BREATHING, 1200, 0));
 				}
+
 				// revoke all advancements
 				player.getServer().getAdvancementLoader().getAdvancements().forEach(advancement -> {
 					AdvancementProgress advancementProgress = player.getAdvancementTracker().getProgress(advancement);

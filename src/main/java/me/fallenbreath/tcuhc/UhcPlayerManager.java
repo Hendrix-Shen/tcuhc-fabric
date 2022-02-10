@@ -27,10 +27,9 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.DyeableItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
+import net.minecraft.potion.PotionUtil;
+import net.minecraft.potion.Potions;
 import net.minecraft.scoreboard.AbstractTeam;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.scoreboard.Team;
@@ -625,14 +624,21 @@ public class UhcPlayerManager
 		BlockEntity te = world.getBlockEntity(pos);
 		if (!(te instanceof ChestBlockEntity)) return;
 		ChestBlockEntity chest = (ChestBlockEntity) te;
-		chest.setStack(0, new ItemStack(Items.WOODEN_AXE));
-		chest.setStack(1, new ItemStack(Items.WOODEN_SWORD));
+		int slot = 0;
+		chest.setStack(slot++, new ItemStack(Items.WOODEN_AXE));
+		chest.setStack(slot++, new ItemStack(Items.WOODEN_SWORD));
 		if (UhcGameManager.getBattleType() == UhcGameManager.EnumBattleType.MARINE) {
 			for(int i =0; i < playerCnt; i ++)
-				chest.setStack(9 + i, new ItemStack(Items.OAK_BOAT));
+				chest.setStack(slot++, new ItemStack(Items.OAK_BOAT));
+		}
+		if(gameManager.getOptions().getBooleanOptionValue("initialLuckArrow")) {
+			ItemStack item = new ItemStack(Items.TIPPED_ARROW, 64);
+			PotionUtil.setPotion(item, Potions.LUCK);
+			chest.setStack(slot++, item);
+			chest.setStack(slot++, item);
 		}
 		if (gameManager.getOptions().getBooleanOptionValue("greenhandProtect"))
-			chest.setStack(2, new ItemStack(Items.GOLDEN_APPLE, playerCnt));
+			chest.setStack(slot++, new ItemStack(Items.GOLDEN_APPLE, playerCnt));
 	}
 	
 	public void spreadPlayers() {

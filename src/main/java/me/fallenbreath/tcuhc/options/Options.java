@@ -72,6 +72,7 @@ public class Options {
 		addOption(new Option("friendlyFire", "Team Fire", new OptionType.BooleanType(), false).setDescription("Can team members attack each other."));
 		addOption(new Option("teamCollision", "Team Coll", new OptionType.BooleanType(), true).setDescription("Can team members collide with each other."));
 		addOption(new Option("greenhandProtect", "Greenhand", new OptionType.BooleanType(), false).setDescription("Reduce damage in the first few minutes."));
+		addOption(new Option("initialLuckArrow", "Initial Luck Arrow", new OptionType.BooleanType(), false).setDescription("Give 2 stacks of luck arrow and resistance at start."));
 		addOption(new Option("forceViewport", "Force View", new OptionType.BooleanType(), true).setDescription("Force viewport on team members after death."));
 		addOption(new Option("deathBonus", "Death Bonus", new OptionType.BooleanType(), true).setDescription("Few potion effects on other members after death."));
 
