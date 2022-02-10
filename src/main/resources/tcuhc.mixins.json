@@ -70,7 +70,8 @@
     "worldgen.structure.StructuresConfigMixin",
     "worldgen.world.CaveCarverMixin",
     "worldgen.world.NoiseColumnSamplerMixin",
-    "worldgen.world.StructuresConfigMixin"
+    "worldgen.world.StructuresConfigMixin",
+    "ServerPropertiesHandlerMixin"
   ],
   "client": [
   ],

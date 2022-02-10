@@ -84,6 +84,7 @@ public class UhcGameManager extends Taskable {
 	public boolean isConfiguring() { return configManager.isConfiguring(); }
 	public boolean hasGameEnded() { return isGameEnded; }
 	public static EnumBattleType getBattleType() { return (EnumBattleType)instance.getOptions().getOptionValue("battleType"); }
+	public static EnumLevelType getLevelType() { return (EnumLevelType)instance.getOptions().getOptionValue("levelType"); }
 	public static Weather getWeather() { return (Weather)instance.getOptions().getOptionValue("weather"); }
 	public static EnumMode getGameMode() { return (EnumMode)instance.getOptions().getOptionValue("gameMode"); }
 
@@ -418,6 +419,12 @@ public class UhcGameManager extends Taskable {
 		NORMAL,
 		MARINE,
 		ICARUS
+	}
+
+	public static enum EnumLevelType {
+		DEFAULT,
+		AMPLIFIED,
+		LARGEBIOMES
 	}
 
 	public static enum Weather {
