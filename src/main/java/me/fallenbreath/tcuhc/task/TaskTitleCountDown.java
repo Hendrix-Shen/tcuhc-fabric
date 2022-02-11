@@ -56,7 +56,7 @@ public class TaskTitleCountDown extends TaskTimer {
 				player.resetStat(Stats.CUSTOM.getOrCreateStat(Stats.TIME_SINCE_REST));  // no free phantom
 				player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 200, 4));  // 10s Resistance V
 				if(UhcGameManager.instance.getOptions().getBooleanOptionValue("initialLuckArrow"))
-					player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 1000000, 1));
+					player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, Integer.MAX_VALUE, 1, true, false));
 				if(UhcGameManager.getBattleType() == UhcGameManager.EnumBattleType.ICARUS) {
 					ItemStack elytra = new ItemStack(Items.ELYTRA);
 					elytra.addEnchantment(Enchantments.MENDING, 1);

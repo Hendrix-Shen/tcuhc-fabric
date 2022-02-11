@@ -632,10 +632,12 @@ public class UhcPlayerManager
 				chest.setStack(slot++, new ItemStack(Items.OAK_BOAT));
 		}
 		if(gameManager.getOptions().getBooleanOptionValue("initialLuckArrow")) {
-			ItemStack item = new ItemStack(Items.TIPPED_ARROW, 64);
-			PotionUtil.setPotion(item, Potions.LUCK);
-			chest.setStack(slot++, item);
-			chest.setStack(slot++, item);
+			ItemStack item1 = new ItemStack(Items.TIPPED_ARROW, 64);
+			ItemStack item2 = new ItemStack(Items.TIPPED_ARROW, 64);
+			PotionUtil.setPotion(item1, Potions.LUCK);
+			PotionUtil.setPotion(item2, Potions.LUCK);
+			chest.setStack(slot++, item1);
+			chest.setStack(slot++, item2);
 		}
 		if (gameManager.getOptions().getBooleanOptionValue("greenhandProtect"))
 			chest.setStack(slot++, new ItemStack(Items.GOLDEN_APPLE, playerCnt));

@@ -307,7 +307,10 @@ public class BonusChestFeature extends Feature<DefaultFeatureConfig>
 				ItemStack item = PotionUtil.setPotion(new ItemStack(Items.TIPPED_ARROW), potion);
 				return item;
 			}));
-			chestItemList.add(new RandomItem(3, new ItemSupplier(Items.FIREWORK_ROCKET)));
+			if(UhcGameManager.getLevelType() == UhcGameManager.EnumLevelType.AMPLIFIED)
+				chestItemList.add(new RandomItem(1, new ItemSupplier(Items.FIREWORK_ROCKET)));
+			else
+				chestItemList.add(new RandomItem(3, new ItemSupplier(Items.FIREWORK_ROCKET)));
 		}
 
 		chestChance = UhcGameManager.instance.getOptions().getFloatOptionValue("chestFrequency");
