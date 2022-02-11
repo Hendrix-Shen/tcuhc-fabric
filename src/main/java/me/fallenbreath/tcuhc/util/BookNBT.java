@@ -77,7 +77,6 @@ public class BookNBT {
 				.append(createOptionText(options.getOption("friendlyFire")))
 				.append(createOptionText(options.getOption("teamCollision")))
 				.append(createOptionText(options.getOption("greenhandProtect")))
-				.append(createOptionText(options.getOption("initialLuckArrow")))
 				.append(createOptionText(options.getOption("forceViewport")))
 				.append(createOptionText(options.getOption("deathBonus")))
 		);
@@ -133,6 +132,7 @@ public class BookNBT {
 				}
 				case SOLO: 
 				case GHOST:
+				case BOMBER:
 					text.append(createTextEvent(line, "/uhc select 9", "Select to fight", Formatting.BLACK));
 					break;
 				case BOSS: {
@@ -173,7 +173,8 @@ public class BookNBT {
 				break;
 			}
 			case SOLO:
-			case GHOST: {
+			case GHOST:
+			case BOMBER: {
 				BaseText text = new LiteralText(Formatting.LIGHT_PURPLE + "All Players\n\n");
 				for (UhcGamePlayer player : gameManager.getUhcPlayerManager().getCombatPlayers()) {
 					text.append(createPlayerText(player));

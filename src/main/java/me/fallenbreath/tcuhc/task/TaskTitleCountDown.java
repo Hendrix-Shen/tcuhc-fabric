@@ -55,8 +55,6 @@ public class TaskTitleCountDown extends TaskTimer {
 				UhcGameManager.instance.getUhcPlayerManager().resetHealthAndFood(player);
 				player.resetStat(Stats.CUSTOM.getOrCreateStat(Stats.TIME_SINCE_REST));  // no free phantom
 				player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 200, 4));  // 10s Resistance V
-				if(UhcGameManager.instance.getOptions().getBooleanOptionValue("initialLuckArrow"))
-					player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, Integer.MAX_VALUE, 1, true, false));
 				if(UhcGameManager.getBattleType() == UhcGameManager.EnumBattleType.ICARUS) {
 					ItemStack elytra = new ItemStack(Items.ELYTRA);
 					elytra.addEnchantment(Enchantments.MENDING, 1);
@@ -78,6 +76,8 @@ public class TaskTitleCountDown extends TaskTimer {
 
 				// give invisibility and shiny potion to player for ghost mode
 				switch (UhcGameManager.getGameMode()) {
+					case BOMBER:
+						this.getGamePlayer().addBomberModeEffect();
 					case GHOST:
 						this.getGamePlayer().addGhostModeEffect();
 						ItemStack shinyPotion = new ItemStack(Items.SPLASH_POTION).setCustomName(new LiteralText("Splash Shiny Potion"));

@@ -393,6 +393,10 @@ public class UhcPlayerManager
 			player.resetDeathPos();
 			if (UhcGameManager.getGameMode() == EnumMode.GHOST)
 				player.addGhostModeEffect();
+			else if (UhcGameManager.getGameMode() == EnumMode.BOMBER) {
+				player.addBomberModeEffect();
+				player.addGhostModeEffect();
+			}
 
 			// side effects & broadcast
 
@@ -472,7 +476,8 @@ public class UhcPlayerManager
 				break;
 			}
 			case SOLO:
-			case GHOST: {
+			case GHOST:
+			case BOMBER: {
 				combatPlayerList.stream().map(player -> new UhcGameTeam().setPlayerTeam(player)).forEach(teams::add);
 				playersPerTeam = 1;
 				break;
@@ -558,7 +563,8 @@ public class UhcPlayerManager
 				break;
 			}
 			case SOLO:
-			case GHOST: {
+			case GHOST:
+			case BOMBER: {
 				combatPlayerList.stream().map(player -> new UhcGameTeam().setPlayerTeam(player)).forEach(teams::add);
 				playersPerTeam = 1;
 				break;
@@ -631,7 +637,7 @@ public class UhcPlayerManager
 			for(int i =0; i < playerCnt; i ++)
 				chest.setStack(slot++, new ItemStack(Items.OAK_BOAT));
 		}
-		if(gameManager.getOptions().getBooleanOptionValue("initialLuckArrow")) {
+		if(UhcGameManager.getGameMode() == EnumMode.BOMBER) {
 			ItemStack item1 = new ItemStack(Items.TIPPED_ARROW, 64);
 			ItemStack item2 = new ItemStack(Items.TIPPED_ARROW, 64);
 			PotionUtil.setPotion(item1, Potions.LUCK);
@@ -681,6 +687,7 @@ public class UhcPlayerManager
 			}
 			case SOLO:
 			case GHOST:
+			case BOMBER:
 			case BOSS: {
 				SpawnPosition spawnPosition = new SpawnPosition(combatPlayerList.size(), borderStart);
 				double maxHealth = 20.0 * playersPerTeam;
