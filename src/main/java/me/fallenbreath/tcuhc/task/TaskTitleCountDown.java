@@ -89,12 +89,16 @@ public class TaskTitleCountDown extends TaskTimer {
 						player.getInventory().insertStack(shinyPotion);
 						break;
 					case HUNTER:
-						ItemStack compass = new ItemStack((Items.COMPASS));
-						if(this.getGamePlayer().getTeam().getTeamColor() == UhcGameColor.RED)
-							compass.setCustomName(Text.of("Compass 4 Life"));
-						else
+						if(this.getGamePlayer().getTeam().getTeamColor() == UhcGameColor.RED) {
+							ItemStack speedPotion = new ItemStack(Items.SPLASH_POTION).setCustomName(new LiteralText("Splash Speedy Potion"));
+							PotionUtil.setCustomPotionEffects(speedPotion, Collections.singleton(new StatusEffectInstance(StatusEffects.SPEED, 200, 0)));
+							player.getInventory().insertStack(speedPotion);
+						} else {
+							ItemStack compass = new ItemStack((Items.COMPASS));
 							compass.setCustomName(Text.of("Hunter's Compass"));
-						player.getInventory().insertStack(compass);
+							compass.addEnchantment(Enchantments.VANISHING_CURSE, 1);
+							player.getInventory().insertStack(compass);
+						}
 						break;
 					case KING:
 						if (this.getGamePlayer().isKing()) {

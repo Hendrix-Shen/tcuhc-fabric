@@ -113,8 +113,7 @@ public class TaskScoreboard extends TaskTimer {
 			if (player.isAlive() && player.getRealPlayer().isPresent()) {
 				ServerPlayerEntity playermp = player.getRealPlayer().get();
 				ServerPlayerEntity target = null;
-				UhcGameTeam team = player.getTeam() == playerManager.getPreyTeam()? playerManager.getHunterTeam() : playerManager.getPreyTeam();
-				for (UhcGamePlayer tmpTarget : team.getPlayers()) {
+				for (UhcGamePlayer tmpTarget : playerManager.getPreyTeam().getPlayers()) {
 					if (tmpTarget.isAlive() && player.getTeam() != tmpTarget.getTeam() && tmpTarget.getRealPlayer().isPresent()) {
 						if (target == null || playermp.squaredDistanceTo(target) > playermp.squaredDistanceTo(tmpTarget.getRealPlayer().get()))
 							target = tmpTarget.getRealPlayer().get();
