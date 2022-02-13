@@ -665,7 +665,6 @@ public class UhcPlayerManager
 				break;
 			}
 		}
-		if(UhcGameManager.getGameMode() == EnumMode.BOMBER)
 		if (gameManager.getOptions().getBooleanOptionValue("greenhandProtect"))
 			chest.setStack(slot++, new ItemStack(Items.GOLDEN_APPLE, playerCnt));
 	}
