@@ -292,6 +292,11 @@ public class BonusChestFeature extends Feature<DefaultFeatureConfig>
 				EnchantedBookItem.addEnchantment(item, new EnchantmentLevelEntry(Enchantments.CHANNELING, 1));
 				return item;
 			}));
+			valuableItemList.add(new RandomItem(64, () -> {
+				ItemStack item = new ItemStack(Items.ENCHANTED_BOOK);
+				EnchantedBookItem.addEnchantment(item, new EnchantmentLevelEntry(Enchantments.RIPTIDE, 1));
+				return item;
+			}));
 			valuableItemList.add(new RandomItem(16, new ItemSupplier(Items.TRIDENT)));
 			valuableItemList.add(new RandomItem(8, new ItemSupplier(Items.APPLE)));
 			chestItemList.add(new RandomItem(5, new ItemSupplier(Items.OAK_LOG)));

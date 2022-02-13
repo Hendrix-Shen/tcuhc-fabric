@@ -138,7 +138,12 @@ public class BookNBT {
 				case BOSS: {
 					text.append(createTextEvent(line, "/uhc select 0", "Select to become a bully", Formatting.RED));
 					text.append(createTextEvent(line, "/uhc select 1", "Select to become a vegetable chicken", Formatting.BLUE));
+					break;
 				}
+				case HUNTER:
+					text.append(createTextEvent(line, "/uhc select 0", "Select to become a prey", Formatting.RED));
+					text.append(createTextEvent(line, "/uhc select 1", "Select to become a hunter", Formatting.BLUE));
+					break;
 			}
 		}
 		NbtList pages = new NbtList();
@@ -161,6 +166,7 @@ public class BookNBT {
 		
 		switch ((UhcGameManager.EnumMode) options.getOptionValue("gameMode")) {
 			case BOSS:
+			case HUNTER:
 			case NORMAL:
 			case KING: {
 				for (UhcGameTeam team : gameManager.getUhcPlayerManager().getTeams()) {

@@ -6,6 +6,8 @@ package me.fallenbreath.tcuhc.task;
 
 import me.fallenbreath.tcuhc.UhcGameManager;
 import me.fallenbreath.tcuhc.UhcGamePlayer;
+import me.fallenbreath.tcuhc.UhcGameTeam;
+import me.fallenbreath.tcuhc.UhcPlayerManager;
 import me.fallenbreath.tcuhc.options.Options;
 import me.fallenbreath.tcuhc.task.Task.TaskTimer;
 import net.minecraft.network.packet.s2c.play.PlayerSpawnPositionS2CPacket;
@@ -78,7 +80,12 @@ public class TaskScoreboard extends TaskTimer {
 			score.setScore(Math.max(0, score.getScore() - 1));
 		else scoreboard.resetPlayerScore(lines[3], objective);
 
-		if (timeRemaining % 60 == 0) updateCompassRotation();
+		if (UhcGameManager.getGameMode() == UhcGameManager.EnumMode.HUNTER) {
+			if(timeRemaining == 0)
+				UhcGameManager.instance.onTeamWin(UhcGameManager.instance.getUhcPlayerManager().getPreyTeam());
+			updateHunterCompassRotation();
+		} else if (timeRemaining % 60 == 0)
+			updateCompassRotation();
 	}
 	
 	private void updateCompassRotation() {
@@ -99,7 +106,26 @@ public class TaskScoreboard extends TaskTimer {
 			}
 		}
 	}
-	
+
+	private void updateHunterCompassRotation() {
+		UhcPlayerManager playerManager = UhcGameManager.instance.getUhcPlayerManager();
+		for (UhcGamePlayer player : playerManager.getCombatPlayers()) {
+			if (player.isAlive() && player.getRealPlayer().isPresent()) {
+				ServerPlayerEntity playermp = player.getRealPlayer().get();
+				ServerPlayerEntity target = null;
+				UhcGameTeam team = player.getTeam() == playerManager.getPreyTeam()? playerManager.getHunterTeam() : playerManager.getPreyTeam();
+				for (UhcGamePlayer tmpTarget : team.getPlayers()) {
+					if (tmpTarget.isAlive() && player.getTeam() != tmpTarget.getTeam() && tmpTarget.getRealPlayer().isPresent()) {
+						if (target == null || playermp.squaredDistanceTo(target) > playermp.squaredDistanceTo(tmpTarget.getRealPlayer().get()))
+							target = tmpTarget.getRealPlayer().get();
+					}
+				}
+				if (target != null)
+					playermp.networkHandler.sendPacket(new PlayerSpawnPositionS2CPacket(target.getBlockPos(), 0));
+			}
+		}
+	}
+
 	public static void hideScoreboard() {
 		UhcGameManager.instance.getMainScoreboard().setObjectiveSlot(1, null);
 	}

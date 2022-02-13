@@ -4,7 +4,10 @@
 
 package me.fallenbreath.tcuhc.task;
 
+import me.fallenbreath.tcuhc.UhcGameColor;
 import me.fallenbreath.tcuhc.UhcGameManager;
+import me.fallenbreath.tcuhc.UhcGameTeam;
+import me.fallenbreath.tcuhc.UhcPlayerManager;
 import me.fallenbreath.tcuhc.task.Task.TaskTimer;
 import me.fallenbreath.tcuhc.util.TitleUtil;
 import net.minecraft.advancement.AdvancementProgress;
@@ -21,6 +24,7 @@ import net.minecraft.potion.PotionUtil;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.GameMode;
@@ -83,6 +87,14 @@ public class TaskTitleCountDown extends TaskTimer {
 						ItemStack shinyPotion = new ItemStack(Items.SPLASH_POTION).setCustomName(new LiteralText("Splash Shiny Potion"));
 						PotionUtil.setCustomPotionEffects(shinyPotion, Collections.singleton(new StatusEffectInstance(StatusEffects.GLOWING, 200, 0)));
 						player.getInventory().insertStack(shinyPotion);
+						break;
+					case HUNTER:
+						ItemStack compass = new ItemStack((Items.COMPASS));
+						if(this.getGamePlayer().getTeam().getTeamColor() == UhcGameColor.RED)
+							compass.setCustomName(Text.of("Compass 4 Life"));
+						else
+							compass.setCustomName(Text.of("Hunter's Compass"));
+						player.getInventory().insertStack(compass);
 						break;
 					case KING:
 						if (this.getGamePlayer().isKing()) {

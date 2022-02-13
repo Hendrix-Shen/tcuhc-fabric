@@ -37,6 +37,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameMode;
@@ -482,6 +483,7 @@ public class UhcPlayerManager
 				playersPerTeam = 1;
 				break;
 			}
+			case HUNTER:
 			case BOSS: {
 				UhcGamePlayer boss = combatPlayerList.get(UhcGameManager.rand.nextInt(combatPlayerList.size()));
 				teams.add(new UhcGameTeam().setColorTeam(UhcGameColor.RED).addPlayer(boss));
@@ -569,12 +571,13 @@ public class UhcPlayerManager
 				playersPerTeam = 1;
 				break;
 			}
-			case BOSS: {
+			case BOSS:
+			case HUNTER: {
 				UhcGamePlayer boss = null;
 				for (UhcGamePlayer player : combatPlayerList) {
 					if (player.getColorSelected().orElse(UhcGameColor.BLUE) == UhcGameColor.RED) {
 						if (boss == null) boss = player;
-						else {
+						else if(UhcGameManager.getGameMode() == EnumMode.BOSS) {
 							player.getRealPlayer().ifPresent(playermp -> playermp.sendMessage(new LiteralText(Formatting.DARK_RED + "There cannot be more than one boss."), false));
 							alright = false;
 						}
@@ -600,6 +603,20 @@ public class UhcPlayerManager
 	protected UhcGamePlayer getBossPlayer() {
 		if (UhcGameManager.getGameMode() == EnumMode.BOSS) {
 			return teams.get(0).getPlayers().iterator().next();
+		}
+		return null;
+	}
+
+	public UhcGameTeam getPreyTeam() {
+		if (UhcGameManager.getGameMode() == EnumMode.HUNTER) {
+			return teams.get(0);
+		}
+		return null;
+	}
+
+	public UhcGameTeam getHunterTeam() {
+		if (UhcGameManager.getGameMode() == EnumMode.HUNTER) {
+			return teams.get(1);
 		}
 		return null;
 	}
@@ -637,14 +654,18 @@ public class UhcPlayerManager
 			for(int i =0; i < playerCnt; i ++)
 				chest.setStack(slot++, new ItemStack(Items.OAK_BOAT));
 		}
-		if(UhcGameManager.getGameMode() == EnumMode.BOMBER) {
-			ItemStack item1 = new ItemStack(Items.TIPPED_ARROW, 64);
-			ItemStack item2 = new ItemStack(Items.TIPPED_ARROW, 64);
-			PotionUtil.setPotion(item1, Potions.LUCK);
-			PotionUtil.setPotion(item2, Potions.LUCK);
-			chest.setStack(slot++, item1);
-			chest.setStack(slot++, item2);
+		switch (UhcGameManager.getGameMode()) {
+			case BOMBER:{
+				ItemStack item1 = new ItemStack(Items.TIPPED_ARROW, 64);
+				ItemStack item2 = new ItemStack(Items.TIPPED_ARROW, 64);
+				PotionUtil.setPotion(item1, Potions.LUCK);
+				PotionUtil.setPotion(item2, Potions.LUCK);
+				chest.setStack(slot++, item1);
+				chest.setStack(slot++, item2);
+				break;
+			}
 		}
+		if(UhcGameManager.getGameMode() == EnumMode.BOMBER)
 		if (gameManager.getOptions().getBooleanOptionValue("greenhandProtect"))
 			chest.setStack(slot++, new ItemStack(Items.GOLDEN_APPLE, playerCnt));
 	}
@@ -688,9 +709,10 @@ public class UhcPlayerManager
 			case SOLO:
 			case GHOST:
 			case BOMBER:
-			case BOSS: {
+			case BOSS:
+			case HUNTER:{
 				SpawnPosition spawnPosition = new SpawnPosition(combatPlayerList.size(), borderStart);
-				double maxHealth = 20.0 * playersPerTeam;
+				double maxHealth = 20.0 * (UhcGameManager.getGameMode() == EnumMode.HUNTER? 1 : playersPerTeam);
 				for (UhcGamePlayer player : combatPlayerList) {
 					final BlockPos pos = gameManager.buildSmallHouse(spawnPosition.nextPos(), player.getTeam().getTeamColor().dyeColor);
 					this.addInitialEquipments(pos, 1);

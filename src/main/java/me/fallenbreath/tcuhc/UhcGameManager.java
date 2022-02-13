@@ -260,8 +260,8 @@ public class UhcGameManager extends Taskable {
 		if (remainTeamCnt == 1)
 			this.onTeamWin(winner);
 	}
-	
-	private void onTeamWin(UhcGameTeam team) {
+
+	public void onTeamWin(UhcGameTeam team) {
 		TitleUtil.sendTitleToAllPlayers(team.getColorfulTeamName() + " Wins !", "Congratulations !");
 		this.broadcastMessage(team.getColorfulTeamName() + " is the winner !");
 		for (UhcGamePlayer player : playerManager.getCombatPlayers()) {
@@ -401,7 +401,8 @@ public class UhcGameManager extends Taskable {
 		BOSS(false),
 		GHOST(false),
 		BOMBER(false),
-		KING(true);
+		KING(true),
+		HUNTER(false);
 
 		private final boolean deathRegen;
 
