@@ -80,14 +80,19 @@ public class TaskScoreboard extends TaskTimer {
 			score.setScore(Math.max(0, score.getScore() - 1));
 		else scoreboard.resetPlayerScore(lines[3], objective);
 
-		if (UhcGameManager.getGameMode() == UhcGameManager.EnumMode.HUNTER) {
-			if(timeRemaining == 0)
-				UhcGameManager.instance.onTeamWin(UhcGameManager.instance.getUhcPlayerManager().getPreyTeam());
-			updateHunterCompassRotation();
-		} else if (timeRemaining % 60 == 0)
-			updateCompassRotation();
+		switch (UhcGameManager.getGameMode()) {
+			case HUNTER:
+				if(timeRemaining == 0)
+					UhcGameManager.instance.onTeamWin(UhcGameManager.instance.getUhcPlayerManager().getPreyTeam());
+			case GHOSTHUNTER:
+				updateHunterCompassRotation();
+				break;
+			default:
+				if (timeRemaining % 60 == 0)
+					updateCompassRotation();
+			}
 	}
-	
+
 	private void updateCompassRotation() {
 		for (UhcGamePlayer player : UhcGameManager.instance.getUhcPlayerManager().getCombatPlayers()) {
 			if (player.isAlive()) {

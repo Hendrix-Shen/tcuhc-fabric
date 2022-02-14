@@ -100,6 +100,18 @@ public class TaskTitleCountDown extends TaskTimer {
 							player.getInventory().insertStack(compass);
 						}
 						break;
+					case GHOSTHUNTER:
+						if(this.getGamePlayer().getTeam().getTeamColor() == UhcGameColor.RED) {
+							this.getGamePlayer().addGhostModeEffect();
+						} else {
+							ItemStack shinyPotion2 = new ItemStack(Items.SPLASH_POTION).setCustomName(new LiteralText("Splash Shiny Potion"));
+							PotionUtil.setCustomPotionEffects(shinyPotion2, Collections.singleton(new StatusEffectInstance(StatusEffects.GLOWING, 200, 0)));
+							player.getInventory().insertStack(shinyPotion2);
+							ItemStack compass = new ItemStack((Items.COMPASS));
+							compass.setCustomName(Text.of("Hunter's Compass"));
+							compass.addEnchantment(Enchantments.VANISHING_CURSE, 1);
+							player.getInventory().insertStack(compass);
+						}
 					case KING:
 						if (this.getGamePlayer().isKing()) {
 							DyeColor dyeColor = this.getGamePlayer().getTeam().getTeamColor().dyeColor;

@@ -484,6 +484,7 @@ public class UhcPlayerManager
 				break;
 			}
 			case HUNTER:
+			case GHOSTHUNTER:
 			case BOSS: {
 				UhcGamePlayer boss = combatPlayerList.get(UhcGameManager.rand.nextInt(combatPlayerList.size()));
 				teams.add(new UhcGameTeam().setColorTeam(UhcGameColor.RED).addPlayer(boss));
@@ -572,7 +573,8 @@ public class UhcPlayerManager
 				break;
 			}
 			case BOSS:
-			case HUNTER: {
+			case HUNTER:
+			case GHOSTHUNTER: {
 				UhcGamePlayer boss = null;
 				for (UhcGamePlayer player : combatPlayerList) {
 					if (player.getColorSelected().orElse(UhcGameColor.BLUE) == UhcGameColor.RED) {
@@ -608,14 +610,14 @@ public class UhcPlayerManager
 	}
 
 	public UhcGameTeam getPreyTeam() {
-		if (UhcGameManager.getGameMode() == EnumMode.HUNTER) {
+		if (UhcGameManager.getGameMode() == EnumMode.HUNTER || UhcGameManager.getGameMode() == EnumMode.GHOSTHUNTER) {
 			return teams.get(0);
 		}
 		return null;
 	}
 
 	public UhcGameTeam getHunterTeam() {
-		if (UhcGameManager.getGameMode() == EnumMode.HUNTER) {
+		if (UhcGameManager.getGameMode() == EnumMode.HUNTER || UhcGameManager.getGameMode() == EnumMode.GHOSTHUNTER) {
 			return teams.get(1);
 		}
 		return null;
@@ -709,9 +711,12 @@ public class UhcPlayerManager
 			case GHOST:
 			case BOMBER:
 			case BOSS:
-			case HUNTER:{
+			case HUNTER:
+			case GHOSTHUNTER: {
 				SpawnPosition spawnPosition = new SpawnPosition(combatPlayerList.size(), borderStart);
-				double maxHealth = 20.0 * (UhcGameManager.getGameMode() == EnumMode.HUNTER? 1 : playersPerTeam);
+				double maxHealth = 20.0;
+				if(UhcGameManager.getGameMode() != EnumMode.HUNTER && UhcGameManager.getGameMode() != EnumMode.GHOSTHUNTER)
+					maxHealth *= playersPerTeam;
 				for (UhcGamePlayer player : combatPlayerList) {
 					final BlockPos pos = gameManager.buildSmallHouse(spawnPosition.nextPos(), player.getTeam().getTeamColor().dyeColor);
 					this.addInitialEquipments(pos, 1);

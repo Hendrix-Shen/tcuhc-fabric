@@ -402,7 +402,8 @@ public class UhcGameManager extends Taskable {
 		GHOST(false),
 		BOMBER(false),
 		KING(true),
-		HUNTER(false);
+		HUNTER(false),
+		GHOSTHUNTER(false);
 
 		private final boolean deathRegen;
 
