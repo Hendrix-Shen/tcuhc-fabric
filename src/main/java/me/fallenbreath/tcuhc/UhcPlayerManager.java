@@ -455,7 +455,7 @@ public class UhcPlayerManager
 		teams.clear();
 		switch (UhcGameManager.getGameMode()) {
 			case NORMAL:
-			case KING: {
+			case KING:{
 				int playerCount = combatPlayerList.size();
 				int teamCount = gameManager.getOptions().getIntegerOptionValue("teamCount");
 				playersPerTeam = playerCount / teamCount + (playerCount % teamCount == 0 ? 0 : 1);
@@ -572,9 +572,7 @@ public class UhcPlayerManager
 				playersPerTeam = 1;
 				break;
 			}
-			case BOSS:
-			case HUNTER:
-			case GHOSTHUNTER: {
+			case BOSS: {
 				UhcGamePlayer boss = null;
 				for (UhcGamePlayer player : combatPlayerList) {
 					if (player.getColorSelected().orElse(UhcGameColor.BLUE) == UhcGameColor.RED) {
@@ -595,6 +593,25 @@ public class UhcPlayerManager
 				combatPlayerList.stream().filter(player -> player != playerBoss).forEach(team::addPlayer);
 				teams.add(team);
 				playersPerTeam = combatPlayerList.size() - 1;
+				break;
+			}
+			case HUNTER:
+			case GHOSTHUNTER: {
+				UhcGameTeam preyTeam = new UhcGameTeam().setColorTeam(UhcGameColor.RED);
+				UhcGameTeam hunterTeam = new UhcGameTeam().setColorTeam(UhcGameColor.BLUE);
+				teams.add(preyTeam);
+				teams.add(hunterTeam);
+				for (UhcGamePlayer player : combatPlayerList) {
+					if (player.getColorSelected().orElse(UhcGameColor.BLUE) == UhcGameColor.RED)
+						preyTeam.addPlayer(player);
+					else
+						hunterTeam.addPlayer(player);
+				}
+				if (preyTeam.getPlayerCount() == 0 || hunterTeam.getPlayerCount() == 0 ) {
+					operator.ifPresent(player -> player.sendMessage(new LiteralText(Formatting.DARK_RED + "There is no prey or hunter in hunter game."), false));
+					return false;
+				}
+				playersPerTeam = 1;
 				break;
 			}
 		}
