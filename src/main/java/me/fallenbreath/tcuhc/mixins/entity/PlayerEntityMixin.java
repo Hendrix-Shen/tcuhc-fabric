@@ -96,12 +96,17 @@ public abstract class PlayerEntityMixin extends LivingEntity
 			modifiedDamageAmount *= 0.5F;
 		}
 
-
 		Entity sourceEntity = source.getSource();
 		if (!(sourceEntity instanceof ServerPlayerEntity)) sourceEntity = source.getAttacker();
 		if (sourceEntity instanceof ServerPlayerEntity && amount > 0.0F) {
 			// the same logic in net.minecraft.entity.LivingEntity.damage
 			boolean blocked = this.blockedByShield(source);
+
+			// reduce player melee attack under bomber
+			if (UhcGameManager.getGameMode() == UhcGameManager.EnumMode.BOMBER && !blocked) {
+				if (!source.isExplosive() || !source.isProjectile())
+					modifiedDamageAmount *= 0.5F;
+			}
 
 			// target player
 			UhcGamePlayer.PlayerStatistics targetStat = UhcGameManager.instance.getUhcPlayerManager().getGamePlayer(self).getStat();

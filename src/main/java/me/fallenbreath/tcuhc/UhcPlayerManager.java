@@ -681,6 +681,8 @@ public class UhcPlayerManager
 				PotionUtil.setPotion(item2, Potions.LUCK);
 				chest.setStack(slot++, item1);
 				chest.setStack(slot++, item2);
+				if (gameManager.getOptions().getBooleanOptionValue("TNTBomber"))
+					chest.setStack(slot++, new ItemStack(Items.TNT, 64));
 				break;
 			}
 		}

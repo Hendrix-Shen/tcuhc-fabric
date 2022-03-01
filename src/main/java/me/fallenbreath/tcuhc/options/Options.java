@@ -74,6 +74,7 @@ public class Options {
 		addOption(new Option("greenhandProtect", "Greenhand", new OptionType.BooleanType(), false).setDescription("Reduce damage in the first few minutes."));
 		addOption(new Option("forceViewport", "Force View", new OptionType.BooleanType(), true).setDescription("Force viewport on team members after death."));
 		addOption(new Option("deathBonus", "Death Bonus", new OptionType.BooleanType(), true).setDescription("Few potion effects on other members after death."));
+		addOption(new Option("TNTBomber", "TNT Bomber", new OptionType.BooleanType(), false).setDescription("Give a stack of TNT under bomber mode."));
 
 		addOption(new Option("borderStart", "Border Start", new OptionType.IntegerType(100, 2000000, 100), 2000).setDescription("The initial size of world border."));
 		addOption(new Option("borderEnd", "Border End", new OptionType.IntegerType(10, 2000000, 10), 200).setDescription("The end size of world border."));

@@ -79,6 +79,7 @@ public class BookNBT {
 				.append(createOptionText(options.getOption("greenhandProtect")))
 				.append(createOptionText(options.getOption("forceViewport")))
 				.append(createOptionText(options.getOption("deathBonus")))
+				.append(createOptionText(options.getOption("TNTBomber")))
 		);
 		
 		appendPageText(pages, (BaseText) new LiteralText("Time Settings\n\n")
